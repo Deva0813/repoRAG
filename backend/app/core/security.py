@@ -28,7 +28,7 @@ def verifyPassword(password: str, hashedPassword: str) -> bool:
 async def createAccessToken(user_id: str) -> str:
     now = datetime.now(UTC)
 
-    user = await UserService.findById(user_id)
+    user = await UserService().findById(user_id)
 
     payload = JWTPayload(
         sub=JWTSub(user_id=str(user.id), user_role=user.role),
@@ -43,9 +43,8 @@ async def createAccessToken(user_id: str) -> str:
 
 
 def decodeAccessToken(token: str) -> JWTPayload:
-    return JWTPayload(
-        **jwt.decode(token, settings.jwt_access_secret, algorithms="HS256")
-    )
+    decode: dict = jwt.decode(token, settings.jwt_access_secret, algorithms="HS256")
+    return JWTPayload(**decode)
 
 
 # ------------------------ Refresh Token (opaque,No JWT) ------------------------#

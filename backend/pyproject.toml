@@ -16,3 +16,19 @@ dependencies = [
     "pymongo>=4.17.0",
     "python-multipart>=0.0.32",
 ]
+
+[tool.pyright]
+reportUnknownVariableType=false
+reportMissingTypeArgument=false
+reportUnknownParameterType=false
+reportUnannotatedClassAttribute=false
+reportUnknownMemberType=false
+reportMissingParameterType=false
+reportUnusedFunction=false
+reportUnusedCallResult=false
+reportUnknownArgumentType=false
+reportMissingImports = "error"
+reportMissingTypeStubs = false
+reportMissingModuleSource = false
+reportExplicitAny=false
+reportAny=false
