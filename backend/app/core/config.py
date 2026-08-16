@@ -10,8 +10,13 @@ class Settings(BaseSettings):
     refresh_token_expire_days: int = 7
     refresh_token_expire_days_max: int = 30
     cookie_secure: bool = True
+    bcrypt_rounds: int = 12
+    public_key:str = "generate"
+    private_key:str = "generate"
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 
 settings = Settings()
+
+__all__=["settings"]

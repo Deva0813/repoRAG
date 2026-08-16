@@ -2,10 +2,11 @@ from datetime import datetime
 from enum import Enum
 from typing import Annotated, ClassVar
 
-from beanie import Document, Indexed, PydanticObjectId
+from beanie import Indexed, PydanticObjectId
 from pydantic import BaseModel
 from pymongo import IndexModel
 
+from app.models.common import BaseDocument
 from app.models.user import Role
 
 
@@ -19,19 +20,18 @@ class TokenType(str, Enum):
     REFRESH = "refresh"
 
 
-class JWTSub(BaseModel):
-    user_id: str
-    user_role: Role
-
-
 class JWTPayload(BaseModel):
-    sub: JWTSub
+    sub: str
+    role: Role
     iat: int | datetime
     exp: int | datetime
     type: TokenType
 
+class AuthDepData(BaseModel):
+    user_id:str
+    role:Role
 
-class RefreshToken(Document):
+class RefreshToken(BaseDocument):
     user_id: PydanticObjectId
     token_hash: Annotated[str, Indexed(unique=True)]
     expires_at: datetime

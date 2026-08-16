@@ -6,7 +6,8 @@ import jwt
 from passlib.context import CryptContext
 
 from app.core.config import settings
-from app.models.auth import JWTPayload, JWTSub, TokenType
+from app.core.error import NotFoundError
+from app.models.auth import JWTPayload, TokenType
 from app.services.user import UserService
 
 # -------------------------------- Password Hashing --------------------------------#
@@ -30,20 +31,22 @@ async def createAccessToken(user_id: str) -> str:
 
     user = await UserService().findById(user_id)
 
+    if not user:
+        raise NotFoundError("User not found")
+
     payload = JWTPayload(
-        sub=JWTSub(user_id=str(user.id), user_role=user.role),
+        sub=str(user.id),
+        role=user.role,
         iat=now,
         exp=now + timedelta(minutes=settings.access_token_expire_minutes),
         type=TokenType.ACCESS,
     )
 
-    return jwt.encode(
-        payload.model_dump(), settings.jwt_access_secret, algorithm="HS256"
-    )
+    return jwt.encode(payload.model_dump(), settings.private_key, algorithm="RS256")
 
 
 def decodeAccessToken(token: str) -> JWTPayload:
-    decode: dict = jwt.decode(token, settings.jwt_access_secret, algorithms="HS256")
+    decode: dict = jwt.decode(token, settings.public_key, algorithms="RS256")
     return JWTPayload(**decode)
 
 
