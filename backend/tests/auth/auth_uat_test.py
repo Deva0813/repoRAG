@@ -1,13 +1,3 @@
-"""
-Automated regression tests for the Auth module, mirroring the UAT test
-cases (UAT-AUTH-01 .. UAT-AUTH-20) documented for /auth/register,
-/auth/login, /auth/refresh, /auth/logout, and the is_authenticated /
-RBAC guard.
-
-Run with:
-    pytest tests/test_auth.py -v
-"""
-
 from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta

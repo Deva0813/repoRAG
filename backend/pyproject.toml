@@ -37,3 +37,8 @@ reportMissingTypeStubs = false
 reportMissingModuleSource = false
 reportExplicitAny=false
 reportAny=false
+
+[dependency-groups]
+dev = [
+    "pytest-cov>=7.1.0",
+]

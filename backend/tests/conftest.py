@@ -102,6 +102,13 @@ async def registered_user(client: AsyncClient, valid_register_payload: dict):
     assert resp.status_code == 201, resp.text
     return valid_register_payload, resp
 
+@pytest_asyncio.fixture
+async def register_admin_user(client: AsyncClient, valid_register_payload: dict):
+    resp = await client.post("/auth/register", json=valid_register_payload)
+    user = await User.find_one(User.email == valid_register_payload.get("email"))
+    assert resp.status_code == 201, resp.text
+    return valid_register_payload, resp
+
 
 async def expire_refresh_token(email: str) -> None:
     user = await User.find_one(User.email == email)
