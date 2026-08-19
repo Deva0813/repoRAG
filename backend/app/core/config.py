@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     refresh_token_expire_days_max: int = 30
     cookie_secure: bool = True
     bcrypt_rounds: int = 12
+    redis_url:str = ""
     public_key:str = "generate"
     private_key:str = "generate"
 
