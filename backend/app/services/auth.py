@@ -13,7 +13,7 @@ from app.core.security import (
     hashPassword,
     verifyPassword,
 )
-from app.models.auth import JWTPayload, JWTSub, RefreshToken
+from app.models.auth import JWTPayload, RefreshToken
 from app.models.user import User
 from app.schemas.auth import LoginData, RegisterData
 
@@ -92,7 +92,7 @@ class AuthService:
             self.refreshRepo.user_id == user_id, self.refreshRepo.revoked == False
         ).update_many(Set({self.refreshRepo.revoked: True}))
 
-    def get_user_id_from_access_token(self, token: str) -> JWTSub:
+    def get_user_id_from_access_token(self, token: str):
         try:
             payload: JWTPayload = decodeAccessToken(token)
         except jwt.ExpiredSignatureError:

@@ -63,7 +63,5 @@ class UserService:
             if existing:
                 raise ConflictError("Email already registered")
 
-        print(update_fields)
-
-        # await user.set(update_fields)
+        await user.set(update_fields)
         return user

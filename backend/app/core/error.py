@@ -53,7 +53,7 @@ class ConflictError(ApiError):
 class ValidationApiError(ApiError):
     def __init__(self, message: str = "Validation failed", details=None):
         super().__init__(
-            message, status.HTTP_422_UNPROCESSABLE_ENTITY, "VALIDATION_ERROR", details
+            message, status.HTTP_422_UNPROCESSABLE_CONTENT, "VALIDATION_ERROR", details
         )
 
 
@@ -89,7 +89,7 @@ def register_error_handlers(app: FastAPI) -> None:
     async def validation_error_handler(request: Request, exc: RequestValidationError):
         logger.info(f"Validation error at {request.url.path}: {exc.errors()}")
         return _error_response(
-            status.HTTP_422_UNPROCESSABLE_ENTITY,
+            status.HTTP_422_UNPROCESSABLE_CONTENT,
             "VALIDATION_ERROR",
             "Request validation failed",
             details=exc.errors(),

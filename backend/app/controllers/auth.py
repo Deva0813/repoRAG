@@ -76,6 +76,7 @@ class AuthController:
         )
         response.delete_cookie(
             key=ACCESS_COOKIE_NAME,
+            httponly=True,
             secure=settings.cookie_secure,
             samesite="lax",
         )
@@ -96,8 +97,9 @@ class AuthController:
         response.set_cookie(
             key=ACCESS_COOKIE_NAME,
             value=access_token,
+            httponly=True,
             secure=settings.cookie_secure,
-            samesite="lax",
+            samesite="strict",
             max_age=settings.access_token_expire_minutes * 60,
         )
 
