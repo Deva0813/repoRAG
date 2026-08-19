@@ -10,10 +10,9 @@ logger = logging.getLogger(__name__)
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 logger.info(f"Using Redis broker: {REDIS_URL}")
 
-celery_app = Celery("repo_tasks", broker=REDIS_URL, backend=REDIS_URL)
 
 celery_app = Celery(
-    "repoRAG_worker", broker=REDIS_URL, backend=REDIS_URL, include=["app.tasks.tasks"]
+    "repoRAG_worker", broker=REDIS_URL, backend=REDIS_URL, include=["app.tasks.rag"]
 )
 
 celery_app.conf.update(
@@ -24,6 +23,8 @@ celery_app.conf.update(
     enable_utc=True,
     broker_pool_limit=2,
     redis_max_connections=4,
+    worker_send_task_events=True,
+    task_send_sent_event=True,
 )
 
-__all__=["celery_app"]
+celery_app.autodiscover_tasks(["app"])

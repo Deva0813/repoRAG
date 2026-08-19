@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     redis_url:str = ""
     public_key:str = "generate"
     private_key:str = "generate"
+    flower_unauthenticated_api:str|None = None
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
