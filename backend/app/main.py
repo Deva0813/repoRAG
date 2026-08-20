@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.db import init_db
 from app.core.error import register_error_handlers
 from app.core.logger import setup_logging
-from app.routes import auth, user
+from app.routes import auth, rag, user
 
 setup_logging()
 
@@ -23,6 +23,7 @@ app.add_middleware(CORSMiddleware)
 
 app.include_router(auth.router)
 app.include_router(user.router)
+app.include_router(rag.router)
 
 
 @app.get("/")

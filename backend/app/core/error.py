@@ -101,7 +101,7 @@ def register_error_handlers(app: FastAPI) -> None:
         return _error_response(
             status.HTTP_503_SERVICE_UNAVAILABLE,
             "DATABASE_ERROR",
-            "A database error occurred",
+            f"A database error occurred : {exc} ",
         )
 
     @app.exception_handler(Exception)
